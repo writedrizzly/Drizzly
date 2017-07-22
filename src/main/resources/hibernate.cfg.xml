@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM "classpath://org/hibernate/hibernate-configuration-3.0.dtd">
+<!--<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">-->
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+    <!-- Database connection settings -->
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/DrizzlyDB</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.connection.password">rajaguru</property>
+    <!-- SQL dialect -->
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    <!-- Echo all executed SQL to stdout -->
+    <property name="show_sql">true</property>
+    <!-- JDBC connection pool (use the built-in) -->
+    <property name="connection.pool_size">1</property>
+    <property name="hbm2ddl.auto">validate</property>
+    <!-- Disable the second-level cache  -->
+    <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+    <!-- Enable Hibernate's automatic session context management -->
+    <property name="current_session_context_class">thread</property>
+    <property name="hibernate.transaction.auto_close_session">true</property>
+    <property name="hibernate.connection.autocommit">true</property>
+    <mapping class="com.drizzly.springmvc.model.DrMaFees"/>
+    <mapping class="com.drizzly.springmvc.model.DrTrLoanDue"/>
+    <mapping class="com.drizzly.springmvc.model.DrTrFeesDue"/>
+    <mapping class="com.drizzly.springmvc.model.DrMaStudent"/>
+    <mapping class="com.drizzly.springmvc.model.DrTrLoan"/>
+    <mapping class="com.drizzly.springmvc.model.DrMaCategory"/>
+    <mapping class="com.drizzly.springmvc.model.DrMaEmployee"/>
+    <mapping class="com.drizzly.springmvc.model.StudentFees"/>
+    <mapping class="com.drizzly.springmvc.model.DrTrAccounts"/>
+  </session-factory>
+</hibernate-configuration>

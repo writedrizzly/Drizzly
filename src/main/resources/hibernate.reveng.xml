@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
+<hibernate-reverse-engineering>
+  <schema-selection match-catalog="DrizzlyDB"/>
+  <table-filter match-name="DR_MA_STUDENT"/>
+  <table-filter match-name="DR_TR_ENQURIY"/>
+  <table-filter match-name="DR_MA_CATEGORY"/>
+  <table-filter match-name="DR_MA_EMPLOYEE"/>
+  <table-filter match-name="DR_MA_FEES"/>
+  <table-filter match-name="DR_TR_LOAN_DUE"/>
+  <table-filter match-name="DR_TR_ACCOUNTS"/>
+  <table-filter match-name="DR_TR_FEES_DUE"/>
+  <table-filter match-name="DR_TR_LOAN"/>
+</hibernate-reverse-engineering>

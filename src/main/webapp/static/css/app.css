@@ -1,0 +1,85 @@
+body, #mainWrapper {
+    height: 70%;
+    background-color:rgb(245, 245, 245);
+}
+
+body, .form-control{
+    font-size:12px!important;
+}
+
+.floatRight{
+    float:right;
+    margin-right: 18px;
+}
+
+.has-error{
+    color:red;
+}
+
+.formcontainer{
+    background-color: #DAE8E8;
+    padding: 20px;
+}
+
+.tablecontainer{
+    background-color: #ccffcc;
+    padding-left: 20px;
+}
+
+.generic-container {
+    width:80%;
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #EAE7E7;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 0 30px black;
+}
+
+.custom-width {
+    width: 80px !important;
+}
+
+.inputtext.ng-valid {
+    background-color: lightgreen;
+}
+.inputtext.ng-dirty.ng-invalid-required {
+    background-color: red;
+}
+.inputtext.ng-dirty.ng-invalid-minlength {
+    background-color: yellow;
+}
+
+.tableheder{
+    background-color: whitesmoke;
+}
+.banner-color-blue{
+    background-color: lightskyblue;
+}
+
+.banner-color-green{
+    background-color: lightgreen
+}
+.banner-color {
+    background-color: lightskyblue;
+}
+.email.ng-valid {
+    background-color: lightgreen;
+}
+.email.ng-dirty.ng-invalid-required {
+    background-color: red;
+}
+.email.ng-dirty.ng-invalid-email {
+    background-color: yellow;
+}
+.sort-icon {
+    font-size: 9px;
+    margin-left: 5px;
+}
+th {
+    cursor:pointer;
+}
+
+
