@@ -32,7 +32,7 @@ public class AccountsController {
     @Autowired
     AccountsFacade accountsFacade;
 
-    List<IAccounts> mangmentAcc = null;
+    List<IAccounts> mangmentCorpAcc = null;
     
     //-------------------Retrieve listIAccounts--------------------------------------------------------
     @RequestMapping(value = "/accounts/search/{fromDate}/{toDate}", method = RequestMethod.GET)
@@ -57,7 +57,7 @@ public class AccountsController {
         System.out.println("ftech listIAccounts");
         Map<String,List<IAccounts>> accountMap = accountsFacade.fetchAccounts(accounts);
         List<IAccounts> normalAcc = accountMap.get("normalAcc");
-        mangmentAcc = accountMap.get("mangmentAcc");
+        mangmentCorpAcc = accountMap.get("mangmentCorpAcc");
         System.out.println("list IAccounts  " + normalAcc);
         if (normalAcc.isEmpty()) {
             return new ResponseEntity<List<IAccounts>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND

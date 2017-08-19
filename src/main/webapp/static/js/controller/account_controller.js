@@ -2,64 +2,24 @@
 App.controller('AccountController', ['$scope','AccountService', function ($scope, AccountService) {
     var self = this;
     self.account = {acId:null,acCredit:null,acDebit:'',acCategory:'',acStaff:null,acNote:'',acDate:null, acFromDate:null, acToDate:null};
-    self.fullAccount = {normalAcc:null,mangmentAcc:null};
+    self.fullAccount = {normalAcc:null,mangmentCorpAcc:null,mangmentRajaguruAcc:null,mangmentMullaiAcc:null};
     self.accounts = [];
-    self.mgmntAccount = [];
+    self.mgmntCorpAccount = [];
+    self.mgmntRajaguruAccount = [];
+    self.mgmntMullaiAccount = [];    
     self.employee = {emId: null, emName: '', emJoinDate: '', emSalary: '', emReleivedDate: '', emAddress: '', emCity: '', emState: '', emPincode: '', emCountry: '', emMobile1: '', emMobile2: '', emEmail1: ''};
     self.employees = [];
-    self.givenFromMgmt = 0;
-    self.givenToMgmt = 0;
+    self.givenFromMgmntTotal = 0;
+    self.givenToMgmntTotal = 0;
+    self.givenFromCorpMgmt = 0;
+    self.givenToCorpMgmt = 0;
+    self.givenFromRajaguruMgmt = 0;
+    self.givenToRajaguruMgmt = 0;
+    self.givenFromMullaiMgmt = 0;
+    self.givenToMullaiMgmt = 0;
     self.creditTotal = 0;
     self.debitTotal =0;
-    
-//    $scope.orderByField = 'acCategory';
-//    $scope.reverseSort = false1
-
-//    self.acMgmntCreditTotal = function() {
-//        if(self.mgmntAccount.length > 0){
-//            console.log('mgmntAccount creditTotal : '+givenFromMgmt);
-//            angular.forEach(self.mgmntAccount, function(acc) {
-//                givenFromMgmt += acc.acCredit;
-//            })
-//        }
-//        return givenFromMgmt;
-//    };
-//    
-//    self.acMgmntDebitTotal = function() {
-//        var givenToMgmt = 0;
-//        if(self.mgmntAccount.length > 0){
-//            console.log('mgmntAccount debitTotal : '+givenToMgmt);
-//            angular.forEach(self.mgmntAccount, function(acc) {
-//                givenToMgmt += acc.acDebit;
-//            })
-//        }
-//        return givenToMgmt;
-//    };
-//    
-//    self.acCreditTotal = function() {
-//        var creditTotal = 0;
-//        if(self.accounts.length > 0){
-//            console.log('creditTotal : '+creditTotal);
-//            angular.forEach(self.accounts, function(acc) {
-//                creditTotal += acc.acCredit;
-//                debitTotal += acc.acDebit;
-//            })
-//        }
-//        return creditTotal;
-//    };
-//    
-//    self.acDebitTotal = function() {
-//        var debitTotal = 0;
-//        if(self.accounts.length > 0){
-//            console.log('debitTotal : '+debitTotal);
-//            angular.forEach(self.accounts, function(acc) {
-//                debitTotal += acc.acDebit;
-//            })
-//        }
-//
-//        return debitTotal;
-//    };
-    
+ 
     self.sort = function(keyname){
         $scope.sortKey = keyname;   //set the sortKey to the param passed
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
@@ -117,12 +77,24 @@ App.controller('AccountController', ['$scope','AccountService', function ($scope
                 function (data) {
                     self.fullAccount = data;
                     self.accounts = self.fullAccount.normalAcc;
-                    self.mgmntAccount = self.fullAccount.mangmentAcc;
+                    self.mgmntCorpAccount = self.fullAccount.mangmentCorpAcc;
+                    self.mgmntRajaguruAccount = self.fullAccount.mangmentRajaguruAcc;
+                    self.mgmntMullaiAccount = self.fullAccount.mangmentMullaiAcc;
                     self.acountTotal();
                     self.mgmntAcountTotal();
                     self.pagingController(AccountService.PagerService(),self.accounts.length);
-                    self.netBalance = (self.creditTotal + self.givenFromMgmt) - (self.debitTotal + self.givenToMgmt);
-                    console.log('netBalance  ',self.netBalance);
+                    self.givenFromMgmntTotal =  self.givenFromCorpMgmt + self.givenFromRajaguruMgmt + self.givenFromMullaiMgmt;
+                    self.givenToMgmntTotal = self.givenToCorpMgmt + self.givenToRajaguruMgmt + self.givenToMullaiMgmt;
+                    self.cashInHand =self.creditTotal - self.debitTotal;
+                    self.nb = 0;
+                    self.actdebt=self.debitTotal-self.givenFromMgmntTotal;
+                    self.acccredt=self.creditTotal-self.givenFromMgmntTotal;
+                    if(self.actdebt<0){
+                        self.nb = self.actdebt+self.acccredt;
+                    }else{
+                         self.nb = self.acccredt-self.actdebt;
+                    }
+                    console.log('cashInHand  ',self.cashInHand);
                     Highcharts.chart('containerchart', {
                         chart: {
                             plotBackgroundColor: null,
@@ -131,7 +103,10 @@ App.controller('AccountController', ['$scope','AccountService', function ($scope
                             type: 'pie'
                         },
                         title: {
-                            text: 'Drizzly Accounts NetBalance : '+self.netBalance
+                            text: 'Drizzly Accounts'+'<br>'
+                                    +'Actual Credit : '+ (self.creditTotal-self.givenFromMgmntTotal)+ '<br>'
+                                    +'Actual Debit : '+ (self.debitTotal-self.givenFromMgmntTotal)+ '<br>'
+                                    +'Net Balance : '+ ( self.nb)
                         },
                         tooltip: {
                             pointFormat: '{series.name}: <b>{point.y:.2f}</b>'
@@ -152,10 +127,8 @@ App.controller('AccountController', ['$scope','AccountService', function ($scope
                         series: [{
                             name: 'Accounts',
                             colorByPoint: true,
-                            data: [{
-                                name: 'Net Balance',
-                                y: self.netBalance
-                            },{
+                            data: [
+                            {
                                 name: 'Credit',
                                 y: self.creditTotal,
                                 sliced: true,
@@ -166,13 +139,20 @@ App.controller('AccountController', ['$scope','AccountService', function ($scope
                                 sliced: true,
                                 selected: true
                             }, {
-                                name: 'Given from Management',
-                                y: self.givenFromMgmt,
+                                name: 'Cash In Hand',
+                                y: self.cashInHand,
                                 sliced: true,
                                 selected: true
                             }, {
-                                name: 'Given to Management',
-                                y: self.givenToMgmt
+                                name: 'Received from - Managment',
+                                y: self.givenFromMgmntTotal,
+                                sliced: true,
+                                selected: true
+                            }, {
+                                name: 'Given to - Managment',
+                                y: self.givenToMgmntTotal,
+                                sliced: true,
+                                selected: true
                             }]
                         }]
                     });
@@ -185,7 +165,7 @@ App.controller('AccountController', ['$scope','AccountService', function ($scope
     
     self.acountTotal = function(){
         self.creditTotal = 0;
-                    self.debitTotal =0;
+        self.debitTotal =0;
         if(self.accounts.length > 0){
             angular.forEach(self.accounts, function(acc) {
                 self.creditTotal += acc.acCredit;
@@ -196,14 +176,32 @@ App.controller('AccountController', ['$scope','AccountService', function ($scope
     };
     
     self.mgmntAcountTotal = function(){
-        self.givenFromMgmt = 0;
-        self.givenToMgmt = 0;
-        if(self.mgmntAccount.length > 0){
-            angular.forEach(self.mgmntAccount, function(acc) {
-                self.givenFromMgmt += acc.acCredit;
-                self.givenToMgmt += acc.acDebit;
-            })
-            console.log('mgmntAccount creditTotal : '+self.givenFromMgmt);
+        self.givenFromCorpMgmt = 0;
+        self.givenToCorpMgmt = 0;
+        self.givenFromRajaguruMgmt = 0;
+        self.givenToRajaguruMgmt = 0;
+        self.givenFromMullaiMgmt = 0;
+        self.givenToMullaiMgmt = 0;
+        if(self.mgmntCorpAccount.length > 0){
+            angular.forEach(self.mgmntCorpAccount, function(acc) {
+                self.givenFromCorpMgmt += acc.acCredit;
+                self.givenToCorpMgmt += acc.acDebit;
+            });
+            console.log('mgmntCorpAccount creditTotal : '+self.givenFromCorpMgmt);
+        }
+        if(self.mgmntRajaguruAccount.length > 0){
+            angular.forEach(self.mgmntRajaguruAccount, function(acc) {
+                self.givenFromRajaguruMgmt += acc.acCredit;
+                self.givenToRajaguruMgmt += acc.acDebit;
+            });
+            console.log('mgmntRajaguruAccount creditTotal : '+self.givenFromRajaguruMgmt);
+        }
+        if(self.mgmntMullaiAccount.length > 0){
+            angular.forEach(self.mgmntMullaiAccount, function(acc) {
+                self.givenFromMullaiMgmt += acc.acCredit;
+                self.givenToMullaiMgmt += acc.acDebit;
+            });
+            console.log('mgmntMullaiAccount creditTotal : '+self.givenFromMullaiMgmt);
         }
         //self.debitTotal = self.debitTotal - self.givenToMgmt;
     };

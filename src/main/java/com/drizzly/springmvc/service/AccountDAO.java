@@ -8,6 +8,7 @@ package com.drizzly.springmvc.service;
 import com.drizzly.springmvc.LocalHibernateUtil;
 import com.drizzly.springmvc.model.DrTrAccounts;
 import com.drizzly.springmvc.model.IAccounts;
+import java.math.BigDecimal;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,9 +39,13 @@ public class AccountDAO extends AbstractDao {
         System.out.print("inside by findByDateRange ");
         System.out.print("inside by findByDateRange account.getAcStaff()  "+account.getAcStaff());
         Map<String,List<IAccounts>> accounts = new HashMap<String, List<IAccounts>>();
-        Collection<String> managmentCat = new ArrayList<String>();
-        managmentCat.add("7");
-        managmentCat.add("12");
+        Collection<String> managmentCorpCat = new ArrayList<String>();
+        Collection<String> managmentRajaguruCat = new ArrayList<String>();
+        Collection<String> managmentMullaiCat = new ArrayList<String>();
+        managmentCorpCat.add("7");
+        managmentCorpCat.add("12");
+        managmentRajaguruCat.add("13");
+        managmentMullaiCat.add("14");
         getSession().beginTransaction();
         final Criteria criteria = getSession().createCriteria(DrTrAccounts.class);
         criteria.add(Restrictions.between("acDate", account.getAcFromDate(), account.getAcToDate()));
@@ -60,17 +65,34 @@ public class AccountDAO extends AbstractDao {
        }
         
         if(!accountList.isEmpty()){
-            List<IAccounts> mangmentAcc = new ArrayList<IAccounts>();
+            List<IAccounts> mangmentCorpAcc = new ArrayList<IAccounts>();
+            List<IAccounts> mangmentRajaguruAcc = new ArrayList<IAccounts>();
+            List<IAccounts> mangmentMullaiAcc = new ArrayList<IAccounts>();
             List<IAccounts> normalAcc = new ArrayList<IAccounts>();
             for (IAccounts acc : accountList) {
-                if(managmentCat.contains(acc.getAcCategory())){
-                    mangmentAcc.add(acc);
+                if(managmentCorpCat.contains(acc.getAcCategory().trim())){
+                    mangmentCorpAcc.add(acc);
+                    normalAcc.add(acc);
+                }else if(managmentRajaguruCat.contains(acc.getAcCategory().trim())){
+                    mangmentRajaguruAcc.add(acc);
+                    if(acc.getAcCredit()!=null && acc.getAcCredit().compareTo(BigDecimal.ZERO)==1){
+                        normalAcc.add(acc);
+                    }
+                }else if(managmentMullaiCat.contains(acc.getAcCategory().trim())){
+                    mangmentMullaiAcc.add(acc);
+                    if(acc.getAcCredit()!=null && acc.getAcCredit().compareTo(BigDecimal.ZERO)==1){
+                        normalAcc.add(acc);
+                    }
                 }else{
                     normalAcc.add(acc);
                 }
             }
+           
             accounts.put("normalAcc", normalAcc);
-            accounts.put("mangmentAcc", mangmentAcc);
+            accounts.put("mangmentCorpAcc", mangmentCorpAcc);
+            accounts.put("mangmentRajaguruAcc", mangmentRajaguruAcc);
+            accounts.put("mangmentMullaiAcc", mangmentMullaiAcc);
+            
             //accounts.s
         }
         getSession().close();

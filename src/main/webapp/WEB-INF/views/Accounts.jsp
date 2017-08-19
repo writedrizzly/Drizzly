@@ -59,12 +59,14 @@
                                     <option value="4">Study Materials</option>
                                     <option value="5">Loan</option>
                                     <option value="6">Fees</option>
-                                    <option value="7">Management</option>
+                                    <option value="7">Management-Corporation Bank</option>
                                     <option value="8">Electrician & Plumber</option>
                                     <option value="9">Electric Bill</option>
                                     <option value="10">Mobile Bill</option>
                                     <option value="11">Salary</option>
-                                    <option value="12">Management</option>
+                                    <option value="13">Management-Rajaguru</option>
+                                    <option value="14">Management-Mullai</option>
+                                    <!--<option value="12">Management</option>-->
                                 </select>
                                 <div class="has-error" ng-show="myForm.$dirty">
                                     <span ng-show="myForm.acCategory.$error.required">This is a required field</span>

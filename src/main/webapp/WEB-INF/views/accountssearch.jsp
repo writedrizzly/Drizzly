@@ -83,12 +83,14 @@
                                     <option value="4">Study Materials</option>
                                     <option value="5">Loan</option>
                                     <option value="6">Fees</option>
-                                    <option value="7">Given to management</option>
+                                    <option value="7">Management - Corp</option>
                                     <option value="8">Electrician & Plumber</option>
                                     <option value="9">Electric Bill</option>
                                     <option value="10">Mobile Bill</option>
                                     <option value="11">Salary</option>
-                                    <option value="12">Received From Management</option>
+                                    <option value="13">Management - Rajaguru</option>
+                                    <option value="14">Management - Mullai</option>
+                                    <!-- <option value="12">Received From Management</option> -->
                                 </select>
                                 <div class="has-error" ng-show="myForm.$dirty">
                                     <span ng-show="myForm.acCategory.$error.required">This is a required field</span>
@@ -143,7 +145,7 @@
                             </div>
                         </form>
                     <tr  class="tableheder table-hover" ><td colspan="7" align="center"> School Account</td></tr>
-                        <tr ng-repeat="accnt in ctrl.accounts | orderBy:sortKey:reverse | filter:search" ng-model="search" ts-repeat ts-hide-no-data>
+                        <tr ng-repeat="accnt in ctrl.accounts | orderBy:column:reverse | filter:search" ng-model="search" ts-repeat ts-hide-no-data>
                             <td><span></span></td>
                             <td><span ng-bind="accnt.acCredit"></span></td>
                             <td><span ng-bind="accnt.acDebit"></span></td>
@@ -183,27 +185,80 @@
                                 <a ng-click="ctrl.setPage(ctrl.pager.totalPages)">Last</a>
                             </li>
                         </ul>-->
-                        <tr class="tableheder table-hover"><td colspan="7" align="center"> Management Account</td></tr>
-                        <tr ng-repeat="mgmntAccnt in ctrl.mgmntAccount | orderBy:sortKey:reverse | filter:search" ng-model="search" ts-repeat ts-hide-no-data>
+                        <!-- Corp Bank -->
+                        <tr class="tableheder table-hover"><td colspan="7" align="center"> Management Corp Account</td></tr>
+                        <tr ng-repeat="mgmntCorpAccnt in ctrl.mgmntCorpAccount | orderBy:sortKey:reverse | filter:search" ng-model="search" ts-repeat ts-hide-no-data>
                             <td><span></span></td>
-                            <td><span ng-bind="mgmntAccnt.acCredit"></span></td>
-                            <td><span ng-bind="mgmntAccnt.acDebit"></span></td>
-                            <td><span ng-bind="mgmntAccnt.acCategory"></span></td>
-                            <td><span ng-bind="mgmntAccnt.acNote"></span></td>
-                            <td><span ng-bind="mgmntAccnt.acDate"></span></td>
-                            <td><span ng-bind="mgmntAccnt.acStaff"></span></td>
+                            <td><span ng-bind="mgmntCorpAccnt.acCredit"></span></td>
+                            <td><span ng-bind="mgmntCorpAccnt.acDebit"></span></td>
+                            <td><span ng-bind="mgmntCorpAccnt.acCategory"></span></td>
+                            <td><span ng-bind="mgmntCorpAccnt.acNote"></span></td>
+                            <td><span ng-bind="mgmntCorpAccnt.acDate"></span></td>
+                            <td><span ng-bind="mgmntCorpAccnt.acStaff"></span></td>
                         </tr>
                         <tr class="tableheder table-hover">
                             <td class="info">Total</td>
-                            <td class="info">{{ctrl.mgmntCreditTotal}}</td>
-                            <td class="info">{{ctrl.mgmntDebitTotal}}</td>
+                            <td class="info">{{ctrl.givenFromCorpMgmt}}</td>
+                            <td class="info">{{ctrl.givenToCorpMgmt}}</td>
                             <td class="success" colspan="2">Net Balance</td>
                             <td class="info" colspan="2">
-                                <span ng-if="ctrl.mgmntCreditTotal - ctrl.mgmntDebitTotal > 0" style="background-color: #0C0">
-                                    {{ctrl.mgmntCreditTotal - ctrl.mgmntDebitTotal}}
+                                <span ng-if="ctrl.givenFromCorpMgmt - ctrl.givenToCorpMgmt > 0" style="background-color: #0C0">
+                                    {{ctrl.givenFromCorpMgmt - ctrl.givenToCorpMgmt}}
                                 </span>
-                                <span ng-if="ctrl.mgmntCreditTotal - ctrl.mgmntDebitTotal <= 0" style="background-color: #C00">
-                                    {{ctrl.mgmntCreditTotal - ctrl.mgmntDebitTotal}}
+                                <span ng-if="ctrl.givenFromCorpMgmt - ctrl.givenToCorpMgmt <= 0" style="background-color: #C00">
+                                    {{ctrl.givenFromCorpMgmt - ctrl.givenToCorpMgmt}}
+                                </span>
+                            </td>
+                        </tr>
+                        
+                        <!-- Rajaguru Account -->
+                        <tr class="tableheder table-hover"><td colspan="7" align="center"> Management Rajaguru Account</td></tr>
+                        <tr ng-repeat="mgmntRajguruAccnt in ctrl.mgmntRajaguruAccount | orderBy:sortKey:reverse | filter:search" ng-model="search" ts-repeat ts-hide-no-data>
+                            <td><span></span></td>
+                            <td><span ng-bind="mgmntRajguruAccnt.acCredit"></span></td>
+                            <td><span ng-bind="mgmntRajguruAccnt.acDebit"></span></td>
+                            <td><span ng-bind="mgmntRajguruAccnt.acCategory"></span></td>
+                            <td><span ng-bind="mgmntRajguruAccnt.acNote"></span></td>
+                            <td><span ng-bind="mgmntRajguruAccnt.acDate"></span></td>
+                            <td><span ng-bind="mgmntRajguruAccnt.acStaff"></span></td>
+                        </tr>
+                        <tr class="tableheder table-hover">
+                            <td class="info">Total</td>
+                            <td class="info">{{ctrl.givenFromRajaguruMgmt}}</td>
+                            <td class="info">{{ctrl.givenToRajaguruMgmt}}</td>
+                            <td class="success" colspan="2">Net Balance</td>
+                            <td class="info" colspan="2">
+                                <span ng-if="ctrl.givenFromRajaguruMgmt - ctrl.givenToRajaguruMgmt > 0" style="background-color: #0C0">
+                                    {{ctrl.givenFromRajaguruMgmt - ctrl.givenToRajaguruMgmt}}
+                                </span>
+                                <span ng-if="ctrl.givenFromRajaguruMgmt - ctrl.givenToRajaguruMgmt <= 0" style="background-color: #C00">
+                                    {{ctrl.givenFromRajaguruMgmt - ctrl.givenToRajaguruMgmt}}
+                                </span>
+                            </td>
+                        </tr>
+                        
+                        <!-- Mullai Account -->
+                        <tr class="tableheder table-hover"><td colspan="7" align="center"> Management Mullai Account</td></tr>
+                        <tr ng-repeat="mgmntMullaiAccnt in ctrl.mgmntMullaiAccount | orderBy:sortKey:reverse | filter:search" ng-model="search" ts-repeat ts-hide-no-data>
+                            <td><span></span></td>
+                            <td><span ng-bind="mgmntMullaiAccnt.acCredit"></span></td>
+                            <td><span ng-bind="mgmntMullaiAccnt.acDebit"></span></td>
+                            <td><span ng-bind="mgmntMullaiAccnt.acCategory"></span></td>
+                            <td><span ng-bind="mgmntMullaiAccnt.acNote"></span></td>
+                            <td><span ng-bind="mgmntMullaiAccnt.acDate"></span></td>
+                            <td><span ng-bind="mgmntMullaiAccnt.acStaff"></span></td>
+                        </tr>
+                        <tr class="tableheder table-hover">
+                            <td class="info">Total</td>
+                            <td class="info">{{ctrl.givenFromMullaiMgmt}}</td>
+                            <td class="info">{{ctrl.givenToMullaiMgmt}}</td>
+                            <td class="success" colspan="2">Net Balance</td>
+                            <td class="info" colspan="2">
+                                <span ng-if="ctrl.givenFromMullaiMgmt - ctrl.givenToMullaiMgmt > 0" style="background-color: #0C0">
+                                    {{ctrl.givenFromMullaiMgmt - ctrl.givenToMullaiMgmt}}
+                                </span>
+                                <span ng-if="ctrl.givenFromMullaiMgmt - ctrl.givenToMullaiMgmt <= 0" style="background-color: #C00">
+                                    {{ctrl.givenFromMullaiMgmt - ctrl.givenToMullaiMgmt}}
                                 </span>
                             </td>
                         </tr>
